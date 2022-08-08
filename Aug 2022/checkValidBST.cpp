@@ -1,23 +1,37 @@
-class Solution {
-    public:
-        bool checkValidBST(TreeNode *root, int &minV, int &maxV)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution
+{
+public:
+    bool checkValidBST(TreeNode *root, long long minV, long long maxV)
+    {
+        if (root == NULL)
         {
-            if(root == NULL){
-                return true;
-            }
-            else if(root >= min && root <= max){
-                return false;
-            }
-            min = min(min,root->val);
-            max = max(max,root->val);
-            return (checkValidBST(root,min,max) && checkValidBST(root,min,max));
+            return true;
         }
-    
-        bool isValidBST(TreeNode *root) {
-            if(root == NULL){
-                return true;
-            }
-            int min = INT_MIN,max = INT_MAX;
-            return checkValidBST(root->left,min,max);
+        if (root->val <= minV || root->val >= maxV)
+        {
+            return false;
         }
-    };
+        return (checkValidBST(root->left, minV, (long long)root->val) && checkValidBST(root->right, (long long)root->val, maxV));
+    }
+
+    bool isValidBST(TreeNode *root)
+    {
+        if (root == NULL)
+        {
+            return true;
+        }
+        long long min = LLONG_MIN, max = LLONG_MAX;
+        return checkValidBST(root, min, max);
+    }
+};
